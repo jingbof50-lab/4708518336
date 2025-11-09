@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Android Updates Delta</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0a0a1a;
+            overflow: hidden; /* 隐藏滚动条，避免背景溢出 */
+        }
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        /* 文字样式 */
+        .watermark {
+            position: fixed;
+            top: 20px;      /* 距离顶部 20 像素 */
+            left: 20px;     /* 距离左侧 20 像素 */
+            color: #1e3a8a; /* 文字颜色为深蓝色 */
+            font-size: 18px; /* 文字大小 */
+            font-weight: bold; /* 文字加粗 */
+            z-index: 10;    /* 确保文字在粒子之上 */
+            text-shadow: 0 0 5px rgba(30, 58, 138, 0.7); /* 匹配文字颜色的阴影 */
+        }
+        /* 按钮容器样式 */
+        .button-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* 垂直和水平居中 */
+            display: flex;
+            flex-direction: column; /* 按钮垂直排列 */
+            gap: 20px; /* 按钮之间的间距 */
+            z-index: 10; /* 确保按钮在粒子之上 */
+        }
+        /* 按钮样式，模仿参考网页 */
+        .glow-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #3b82f6; /* 按钮背景色 */
+            color: white; /* 按钮文字颜色 */
+            font-weight: bold; /* 文字加粗 */
+            padding: 15px 30px; /* 内边距，控制按钮大小 */
+            border-radius: 50px; /* 圆角 */
+            text-decoration: none; /* 去除链接下划线 */
+            box-shadow: 0 0 10px #3b82f6, 0 0 20px #3b82f6; /* 蓝色发光效果 */
+            transition: all 0.3s ease; /* 过渡动画，使效果更流畅 */
+            width: 200px; /* 固定按钮宽度，使它们看起来整齐 */
+        }
+        /* 按钮 hover 效果 */
+        .glow-button:hover {
+            background-color: #2563eb; /* 鼠标悬浮时背景色变深 */
+            transform: translateY(-5px); /* 轻微向上浮动 */
+            box-shadow: 0 0 15px #60a5fa, 0 0 30px #60a5fa; /* 发光效果增强 */
+        }
+    </style>
+</head>
+<body>
+    <!-- 左上角文字 -->
+    <div class="watermark">快手號 4708518336</div>
+
+    <!-- 按钮容器 -->
+    <div class="button-container">
+        <a href="teaching.html" class="glow-button">教學</a>
+        <a href="download.html" class="glow-button">下載註器</a>
+        <a href="script.html" class="glow-button">獲得腳本</a>
+    </div>
+
+    <!-- 粒子背景容器 -->
+    <div id="particles-js"></div>
+
+    <!-- 粒子动画核心脚本 -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // 粒子效果配置
+        particlesJS('particles-js', {
+            "particles": {
+                "number": {"value": 80, "density": {"enable": true, "value_area": 800}},
+                "color": {"value": "#3b82f6"},
+                "shape": {"type": "circle"},
+                "opacity": {"value": 0.5, "random": false},
+                "size": {"value": 3, "random": true},
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#ffffff",
+                    "opacity": 0.2,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 2,
+                    "direction": "none",
+                    "random": false,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {"enable": true, "mode": "repulse"},
+                    "onclick": {"enable": true, "mode": "push"},
+                    "resize": true
+                },
+                "modes": {
+                    "repulse": {"distance": 100, "duration": 0.4},
+                    "push": {"particles_nb": 4}
+                }
+            },
+            "retina_detect": true
+        });
+    </script>
+</body>
+</html>

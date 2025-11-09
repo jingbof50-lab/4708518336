@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Android Updates Delta</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0a0a1a;
+            overflow-x: hidden; /* 仅隐藏水平滚动条 */
+            padding: 50px 0 80px; /* 上下留白，避免底部内容被遮挡 */
+        }
+        #particles-js {
+            position: fixed; /* 固定背景，不随滚动移动 */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0; /* 背景层级最低 */
+        }
+        /* 水印样式 */
+        .watermark {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            color: #1e3a8a;
+            font-size: 18px;
+            font-weight: bold;
+            z-index: 10; /* 水印在背景之上 */
+            text-shadow: 0 0 5px rgba(30, 58, 138, 0.7);
+        }
+        /* 粘贴板容器（支持滚动） */
+        .paste-list {
+            position: relative;
+            z-index: 10; /* 粘贴板在背景之上 */
+            width: 85%;
+            max-width: 850px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 25px; /* 粘贴板之间的间距 */
+        }
+        /* 单个粘贴板样式 */
+        .paste-container {
+            background-color: rgba(15, 23, 42, 0.85);
+            border-radius: 12px;
+            padding: 22px;
+            backdrop-filter: blur(12px); /* 毛玻璃效果，不遮挡背景 */
+            border: 1px solid rgba(59, 130, 246, 0.35);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        /* 粘贴板标题 */
+        .paste-title {
+            color: #3b82f6;
+            font-size: 21px;
+            font-weight: 600;
+            margin: 0 0 16px 0;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.5);
+            padding-bottom: 10px;
+        }
+        /* 粘贴板内容 */
+        .paste-content {
+            background-color: rgba(8, 14, 30, 0.8);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 14px;
+            color: #e0e7ff;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            word-break: break-all;
+            white-space: pre-wrap; /* 保留换行和空格 */
+        }
+        /* 复制按钮 */
+        .copy-btn {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 9px 18px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+        .copy-btn:hover {
+            background-color: #2563eb;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+        }
+        /* 复制成功提示（悬浮弹窗） */
+        .copy-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background-color: #10b981;
+            color: white;
+            padding: 10px 22px;
+            border-radius: 8px;
+            font-size: 15px;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            z-index: 100; /* 提示在最上层 */
+        }
+        .copy-toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- 水印 -->
+    <div class="watermark">快手號 4708518336</div>
+
+    <!-- 粒子背景（固定不动） -->
+    <div id="particles-js"></div>
+
+    <!-- 粘贴板列表（可滚动） -->
+    <div class="paste-list">
+        <!-- 1. 宇宙腳本 -->
+        <div class="paste-container">
+            <div class="paste-title">宇宙腳本</div>
+            <div class="paste-content" id="content1">loadstring(game:HttpGet("https://raw.githubusercontent.com/jingbof50-lab/ccccccc.github.io/main/PC_666"))() </div>
+            <button class="copy-btn" onclick="copyContent('content1')">複製內容</button>
+        </div>
+
+        <!-- 2. 皮腳本 -->
+        <div class="paste-container">
+            <div class="paste-title">皮腳本</div>
+            <div class="paste-content" id="content2">loadstring(game:HttpGet("https://raw.githubusercontent.com/xiaopi77/xiaopi77/main/QQ1002100032-Roblox-Pi-script.lua"))() </div>
+            <button class="copy-btn" onclick="copyContent('content2')">複製內容</button>
+        </div>
+
+        <!-- 3. XA腳本 -->
+        <div class="paste-container">
+            <div class="paste-title">XA腳本</div>
+            <div class="paste-content" id="content3">loadstring(game:HttpGet("https://raw.gitcode.com/Xingtaiduan/Scripts/raw/main/Loader.lua"))() </div>
+            <button class="copy-btn" onclick="copyContent('content3')">複製內容</button>
+        </div>
+    </div>
+
+    <!-- 复制成功提示 -->
+    <div class="copy-toast" id="copyToast">已複製到剪貼板！</div>
+
+    <!-- 粒子动画脚本 -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // 粒子背景配置（完全保留原效果）
+        particlesJS('particles-js', {
+            "particles": {
+                "number": {"value": 80, "density": {"enable": true, "value_area": 800}},
+                "color": {"value": "#3b82f6"},
+                "shape": {"type": "circle"},
+                "opacity": {"value": 0.5, "random": false},
+                "size": {"value": 3, "random": true},
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#ffffff",
+                    "opacity": 0.2,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 2,
+                    "direction": "none",
+                    "random": false,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {"enable": true, "mode": "repulse"},
+                    "onclick": {"enable": true, "mode": "push"},
+                    "resize": true
+                },
+                "modes": {
+                    "repulse": {"distance": 100, "duration": 0.4},
+                    "push": {"particles_nb": 4}
+                }
+            },
+            "retina_detect": true
+        });
+
+        // 复制功能 + 悬浮提示
+        function copyContent(contentId) {
+            const content = document.getElementById(contentId).textContent;
+            const toast = document.getElementById('copyToast');
+            
+            // 复制到剪贴板
+            navigator.clipboard.writeText(content).then(() => {
+                // 显示成功提示
+                toast.classList.add('show');
+                // 2秒后隐藏提示
+                setTimeout(() => toast.classList.remove('show'), 2000);
+            }).catch(() => {
+                toast.textContent = '複製失敗，請手動複製！';
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 2000);
+            });
+        }
+    </script>
+</body>
+</html>
